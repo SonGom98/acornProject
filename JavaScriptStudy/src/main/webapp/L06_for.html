@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>자료형과 반복문</title>
+</head>
+<body>
+    <h1>자료형을 반복문으로 검사해 보자~</h1>
+    <h2>Array</h2>
+    <h2>Object</h2>
+
+    <h3>문제1 다음 리스트의 모든 값을 더하세요~</h3>
+    <ul id="ex1">
+      <li>1</li>
+      <li>4</li>
+      <li>9</li>
+      <li>16</li>
+      <li>25</li>
+      <li>36</li>
+      <li>49</li>
+    </ul>
+    <p id="ex1Result"></p>
+    <script>
+        //document
+        //dom traveling 의 결과로 단수가 나오는 것과 복수가 나오는 것 암기
+        //단기 : id,formName(==forms["formName"]),parentNode
+        //단수함수 : getElementById("id"), querySelector("cssSelector") '.', '#', '>', '+','[]'...
+        //복수 : children(자식노드) childNodes(텍스노드+자식노드) HTMLCollection 배열이 반환
+        //복수함수 : getElementsByTagname("tag"), getElementsByClassname("class") => HTMLCollection
+        // ,querySelectorAll("cssSelector") => NodeList(내부반복문을 포함하는 배열 타입)
+
+        //parentNode, children, childNodes : 해당 노드에 포함된 필드 (새롭게 탐색하지 않는다.)
+
+    //id 선택자는 노드 개체를 바로 선택할 수 있다.
+    //console.log(ex1.childNodes);
+    console.log(ex1.children); //HTMLCollection 배열인데 Array보다 필드가 적은 배열
+    console.log(ex1.getElementsByTagName("li"));
+    console.log(ex1.children[5].innerText);
+    document.getElementById("ex1").parentNode;
+    //li 써진 모든 test를 수로 더한 결과를 출력하세요!
+    let sum4=0;
+    for (let i of ex1.children){ //해당 배열에 Iterable해야 사용 가능 (다음값있냐고 물어볼수있음)
+      sum4 += parseInt(i.innerText);
+    }
+    console.log(`li태그의 전부 합한 값 : ${sum4}`);
+
+    /*
+    const ex1Node = document.getElementById("ex1");
+    console.log(ex1Node);
+    */
+    </script>
+
+    <h3 id="ex2H3">ex2 li에 작성된 문자열을 li의 color로 변경하세요!</h3>
+    <ul id="ex2">
+      <li>red</li>
+      <li>lightblue</li>
+      <li>rgb(100,200,150)</li>
+      <li>yellow</li>
+      <li>rgba(255,255,255,5)</li>
+      <li>#00FF11</li>
+      <li>#0F1</li>
+    </ul>
+
+<script>
+    //css CascadingStyleSheet : 브라우저에 노드를 그래픽으로 나타내는 명세서
+    //1 Cascading : 부모 요소의 스타일을 자식이 따르는 것
+    //2 Cascading : 선택자의 우선운위가 존재한다. tag 1, class 10, id 100 ,inline 1000, !important
+    //3 Cascading : External Style (다운)> internal Style (내부 style)> Inline Style(요소에 작성)
+    //Inline Style : 요소에 직접 쓰거나 자바 스크립트로 요소를 찾아서 스타일을 주면 인라인에 적용된다!(js로 요소를 동적으로 만들기 위해 존재)
+    //브라우저가 HTML을 노드 개체로 만들기 전에 꼭 Dom Tree 를 생성해서 css 명세서를 이용해 그래픽을 그린다.
+
+    //스타일은 노드 개체의 속성이다.
+
+
+    //노드 개체의 이벤트 속성 (GUI 가 동작하기 위해 최소의 장치)
+    //브라우저는 브라우저에 발생하는 모든 것을 이벤트로 정의한다. (EventListener 가 너무 훌륭하게 동작해서 모든 이벤트를 처리함)
+    //EventListener : 이벤트가 발생하는 것을 무한히 대기(무한반복문), 이벤트를 멀티스레드로 처리하는 객체 (비동기 : ) (동기 : 순서대로)
+    //EventListener 는 멀티스레드로 동작하지만 물리적으로는 1 thread 를 멀티스레드처럼 효율적으로 사용하는 상태이다.
+    //이런 상태의 스레드를 경량 스레드라 부른다. node.js가 EventListener 경량 스레드를 사용하기 위해 등장 했다.
+
+    ex2H3.onclick=function (e){
+        console.log("눌렀다!!");// 정의 or 재정의
+        console.log(e.target)
+        //this.style.color="purple";
+        //ex2H3.style.color="purple";
+        e.target.style.color="purple";
+    };
+    //이벤트 필드는 함수이고 콜백함수(실행할 때 호출되는 함수)를 재정의 해야한다.
+
+
+  // ex2H3.onmouseenter=function (e){
+  //   this.style.color='blue';
+  // };
+
+
+
+  for(let a of ex2.children) {
+    a.onmouseover = function (e) {
+    this.style.color = a.innerText;
+  }
+    a.onmouseleave= function (e) {
+        this.style.color = "#000"
+    }
+  }
+
+</script>
+
+    <h3>문제3 다음 리스트에서 수 아닌 것을 제외한 모든 값을 더하세요~</h3>
+    <ul id="ex3">
+        <li>18.33em</li>
+        <li>1</li>
+        <li>4.3</li>
+        <li>9.00</li>
+        <li>십오</li>
+        <li>16</li>
+        <li>25.12</li>
+        <li>36</li>
+        <li>null</li>
+        <li>49</li>
+    </ul>
+
+    <script>
+        let sum5=0;
+    for(let a of ex3.children) {
+
+        let num = parseFloat(a.innerText);
+        if(!Number.isNaN(num)){
+            sum5+=num;
+        }
+
+        // if (!(isNaN(parseFloat(a.innerText)))) {
+        //     console.log(a.innerText);
+        //     sum5 += parseFloat(a.innerText);
+        // }
+    }
+        console.log(sum5);
+    </script>
+
+
+
+
+<script>
+  /*
+  java while
+  int i=0
+  while(i<arr.length){
+    i++;
+  }
+
+
+  Iterator i=arr;
+  while(i.next()){
+    i.nextValue();
+  }
+  */
+
+  const arr=[10,-20,30,55,200,-250]; //모든 값을 더하세요~
+
+  //for(int i=0; i<arr.length; i++){}
+
+  //for(int a : arr){ //iterator 반복문, 향상된 for 문
+  //     sum+=a;
+  // }
+  let sum=0;
+  for(let i=0; i<arr.length; i++){
+    sum+=arr[i];
+  }
+  console.log(`for 로 arr의 모든 자료를 더한 값: ${sum}`);
+  sum=0;
+  for(let a of arr){
+    sum+=a;
+  }
+  console.log(`for of로 arr의 모든 자료를 더한 값: ${sum}`);
+
+  //for in js에 밖에 없는 것~~
+  sum=0;
+  for(let i in arr){ //in은 key를 반환하는데 Array일 때는 index를 반환 Array 필드가 추가로 나와서 index 가 아닌 필드가 나온다
+    sum+=arr[i];
+  }
+  console.log(`for in로 arr의 모든 자료를 더한 값: ${sum}`);
+
+</script>
+</body>
+</html>

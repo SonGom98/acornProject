@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SqlDialectMappings">
+    <file url="file://$PROJECT_DIR$/ExpressJsStudy/L04ModuleMysql.js" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/ExpressJsStudy/L05EmpRouter.js" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/JavaScriptStudy/src/main/java/com/acorn/javascriptstudy/DeptListJson.java" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/JavaScriptStudy/src/main/java/com/acorn/javascriptstudy/L19EmpListJson.java" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/JavaWebAppBoardModel2/src/main/java/com/acorn/webappboard/dao/BoardsDaoImp.java" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/JavaWebAppBoardModel2/src/main/java/com/acorn/webappboard/dao/UsersDaoImp.java" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/NodeJsStudy/DeptCRUD.js" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/NodeJsStudy/L05ViewRender.js" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/NodeJsStudy/L06CRUD.js" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/src/acon/L16JDBC.java" dialect="GenericSQL" />
+  </component>
+</project>

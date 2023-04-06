@@ -1,0 +1,22 @@
+html
+    head
+        title SCOTT.dept CRUD
+        meta(charset="UTF-8")
+    body
+        h1 부서 리스트
+        table
+            thead
+                tr
+                    th 부서 번호
+                    th 부서 이름
+                    th 부서 지역
+            tbody
+                -for(const d of deptList)
+                    tr
+                        td=d.DEPTNO
+                        td=d.DNAME
+                        td=d.LOC
+                        th
+                            a(href=`/deptUpdate.do?deptno=${d.DEPTNO}`) 부서별 업데이트
+                        th
+                            a(href=`/deptDetail.do?deptno=${d.DEPTNO}`) 부서별 인원 상세

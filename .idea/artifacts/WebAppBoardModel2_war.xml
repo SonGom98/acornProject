@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="WebAppBoardModel2:war">
+    <output-path>$PROJECT_DIR$/JavaWebAppBoardModel2/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>WebAppBoardModel2</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="WebAppBoardModel2-1.0-SNAPSHOT.war">
+      <element id="artifact" artifact-name="WebAppBoardModel2:war exploded" />
+    </root>
+  </artifact>
+</component>

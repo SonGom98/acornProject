@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>async 함수</title>
+</head>
+<body>
+    <h1>async 함수와 프라미스와 동기화!</h1>
+    <h2>async 함수는 자동 프라미스화 기능이 존재한다.(잘 사용하진 않는다.)</h2>
+    <pre>
+        async function name(){
+            return data;
+            ==return new Promise((resolve)=>{
+              resolve();
+        }
+      }
+
+    </pre>
+
+    <h2>async 함수는 await 연산으로 Promise 객체의 then() 함수를 실행할 수 있고
+      than 의 첫번째 콜백함수의 매개변수를 반환한다.
+    </h2>
+    <p>콜백 지옥을 벗어나기 위해 Promise(2015) 가 도입되었지만 프라미스지옥을 안겨주었다.... async 함수가 등장!!</p>
+    <pre>
+      new Promise((resolve)=>{
+          ......처리
+          resolve(결과);
+      }).then((결과)=>{
+          ......처리
+      })
+
+      async function name(){
+          let 결과 = await new Promise((resolve)=>{
+            ......처리
+            resolve(결과);
+        })
+        ... 처리
+      }
+    </pre>
+    <h2>async에서 에러 처리(너무너무 쉽다.)</h2>
+    <pre>
+        new Promise((res,rej)=>{
+            ......오류 or 예상하지 않는 상황
+            reject(new Error("오류 내역"));
+
+        }).then((res)=>{
+            },("오류내역")={
+                오류 처리
+            }
+        );
+        //권장
+        new Promise((res,rej)=>{
+            ......오류 or 예상하지 않는 상황
+            reject(new Error("오류 내역"));
+
+        }).then((res)=>{
+            },catch(("오류 내역")=>{
+                오류 처리
+        });
+
+        async 함수(){
+        try{
+            let 처리 = await new Promise((res)=>{ res(처리) })
+            }catch(e){
+                오류처리
+            }
+        }
+        //통신 실패인 404 500 오류로 생각하는 경향이 있는데 예외처리가 되는 오류가 아니가
+    </pre>
+    <h2>멀티 스레드(비동기 실행)를 사용하는 이유와 스레드 동기화와 Promise.all([])</h2>
+    <ul>
+        <li>멀티 스레드를 사용하는 이유1 : 여러 일을 동시에 하기 위해</li>
+        <li>멀티 스레드를 사용하는 이유2 : 속도가 빨라서 시간 절약과 비용감소가 발생</li>
+        <li>
+            10 멀티 스레드(app이 일하는 단위)를 사용하는 이유3 :
+            1 프로세스(cpu 일하는 단위)를 더 효율적으로 사용하기 위해
+        </li>
+        <li>Promise 와 async 사용할 때 하는 실수로 효율적으로 실행하기 위해 생성하는 멀티스레드를 모두 동기화하는 것</li>
+        <li>Promise.all() 을 이용해서 비동기 실행을 동시에 동기화 할 수 있다.</li>
+    </ul>
+    <pre>
+        async function name(){
+            let 결과1 = await 프라미스화 함수();
+            let 결과2 = await 프라미스화 함수();
+            let 결과3 = await 프라미스화 함수();
+            let 결과4 = await 프라미스화 함수();
+            let 결과5 = await 프라미스화 함수();
+            ..... 모든 실행이 동기화 돼서 멀티스레드를 정의한 이유가 없어진다.
+        }
+
+        async function name2(){
+            let [결과1,결과2.....] = await Promise.all([프라미스화함수(),프라미스화함수(),...]);
+        ..... Promise.all 에 정의된 스레드가 모두 종료되는 시점과 동기화
+    </pre>
+
+<script>
+  async function a(){
+    return "1";
+  }
+  a().then((msg)=>{
+    console.log(msg)
+  });
+  function a2(){
+    return new Promise((res)=>{
+          res("1");
+    })
+  }
+
+  console.log(a2())
+
+  function loadImgList(){
+    fetch("ajax/imgList.html")
+            .then((res)=>{
+              return res.text();
+            }).then((html)=>{
+      alert(html);
+    })
+  }
+//부모가 async라고 자식이 async가 되지 않음
+  async function loadImgListAsync(){
+      console.time("imgListTime:");
+      const resp = await fetch("ajax/imgList.html"); // then이 실행된다.
+      if(resp.status==200){
+      const html = await resp.text();
+        alert(html);
+      }else {
+          alert("통신 실패!");
+      }
+      console.timeEnd("imgListTime:");
+      //404가 발생하면 js 엔진이 종료되나요?? (예외처리 대상이 아니다.)
+  }
+  // loadImgListAsync = async ()=>{
+  //     const resp =await fetch("ajax/imgList.html"); // then이 실행된다.
+  //     const html = await resp.text();
+  //     alert(html);
+  // }
+
+loadImgListAsync();
+
+</script>
+    <h2>imgList 와 personList 를 불러오세요
+        <button id="loadImgAndPersonBtn">로드!</button>
+    </h2>
+    <p>
+        <button id="loadImgAndPersonBtn2">Promise All 로드!</button>
+    </p>
+
+    <div id="imgListCont"></div>
+    <pre id="personListCont"></pre>
+<script>
+    loadImgAndPersonBtn.onclick = async ()=>{
+        console.time("await img await person")
+        const resp = await fetch("./empListJson.do");
+        //await 떄문에 imgList 가 통신이 완료될떄 까지 기다렸다가
+        //personList 와 통신
+        const resp2 = await fetch("./ajax/personList.json")
+        console.timeEnd("await img await person")
+
+        let html = await resp.text();
+        let json = await resp2.text();
+        imgListCont.innerHTML=html;
+        personListCont.innerText=json;
+    }
+
+    loadImgAndPersonBtn2.onclick = async ()=>{
+        console.time("Promise.all([img,person])")
+        const[resp,resp2] = await Promise.all([fetch("./empListJson.do"),
+                                          fetch("./ajax/personList.json")]);
+        console.timeEnd("Promise.all([img,person])")
+        let html = await resp.text();
+        let json = await resp2.text();
+        imgListCont.innerHTML=html;
+        personListCont.innerText=json;
+    }
+
+
+</script>
+</body>
+</html>

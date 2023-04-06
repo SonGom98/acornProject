@@ -1,0 +1,26 @@
+body,html{
+    padding: 0; margin: 0;
+}
+#headerNav{
+    background-color: black;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+}
+main{
+    margin: 20px;
+}
+#headerNav>ul{
+    display: flex;
+    list-style: none;
+}
+#headerNav>ul>li{
+    padding: 0px 10px;
+}
+#headerNav>ul>li:hover a{
+    color: mediumaquamarine;
+}
+#headerNav a{
+    color: #fff;
+    text-decoration: none;
+}

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form name="timerForm">
+    <p>
+        시간 : <input type="number" name="time" value="5000"> 밀리초
+    </p>
+    <p>
+        실행 간격 : <input type="number" name="interval" value="1000"> 밀리초
+    </p>
+    <p>
+        출력 : <input type="text" name="out" readonly>
+    </p>
+    <p>
+        <button type="button" name="start">시작</button>
+        <button type="button" name="stop">멈춤</button>
+        <button type="button" name="exit">종료</button>
+    </p>
+</form>
+<script>
+    const fn = document.forms["timerForm"];
+    console.log(fn)
+</script>
+</body>
+</html>

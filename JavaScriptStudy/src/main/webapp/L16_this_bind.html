@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>this bind</title>
+</head>
+<body>
+<h1>this 와 bind 와 화살표 함수</h1>
+<ul>
+  <li>this : 객체 필드(멤버) 접근자</li>
+  <li>super : 부모의 필드 접근자</li>
+  <li>bind : this 가 정의하고 있는 객체</li>
+  <li>function.bind(Object) : 해당 함수에 this 로 특정 Object 를 고정할 수 있다.</li>
+  <li>this 소실  : 타입에서 내부의 필드에서 this 가 다른 객체를 가르키는 현상 </li>
+  <li>함수에서 this 가 window 인 이유는 전역인 window 에서 함수를 실행했기 때문에 </li>
+  <li>타입에서 선언된 함수에서 this 가 해당 타입의 멤버인 이유는 타입을 객체로 만들고 객체에서 함수를 실행하기 때문에 </li>
+  <li>콜백함수에서 this 가 콜백함수를 실행하는 객체인 이유는 해당 객체의 멤버로 콜백함수를 정의했기 때문에  </li>
+  <li>함수의 bind 로 특정 객체를 넣으면 그 함수에 this 는 매개변수로 넣은 객체로 고정된다.   </li>
+</ul>
+<h2>this 소실이 발생하는 이유!</h2>
+<ul>
+  <li>콜백함수를 정의할때 this 는 콜백함수를 실행하는 객체가 된다.</li>
+  <li>이때 this 가 콜백함수를 정의하는 타입이기를 기대할때 this 소실이 발생했다고 한다. </li>
+  <li>예) 이벤트를 정의한 함수내부의 this 가 그 함수를 정의한 타입으로 기대하지만 이벤트가 발생한 노드개체가 this 가 된다.</li>
+  <li>예) 타이밍함수를 정의한 함수내부의 this 가 그 함수를 정의한 타입이기를 기대하지만 타이밍함수를 실행, 생성하는 window 가 된다. </li>
+</ul>
+<h2>this 소실을 해결하는 2가지 방법</h2>
+<ul>
+  <li>함수의 bind()로 내가 원하는 this 로 고정한다.</li>
+  <li>this 를 bind 하지 못하는 화살표함수를 사용한다~ </li>
+</ul>
+<!-- 15분까지 쉬었다가 오세요~-->
+<input type="text" id="o" readonly>
+
+<p>timer : <strong id="timerStr"></strong></p>
+<script>
+  const out4 = document.getElementById("o");
+  out4.value="안녕";
+  console.log(out4.value);
+
+  //타이머 타입
+  //타이머 객체를 생성후 호출하면 화면출력되도록 정의
+  class Timer{
+    time;id;
+    constructor(id,time=3) {
+      this.time=time;
+      this.id=id;
+    }
+    printDom (){
+      //this 로 필드가 접근 가능
+      const node=document.getElementById(this.id);
+      node.innerText=this.time;
+    }
+    start (){
+      //this 소실  : this 가 실행하는 객체를 bind 하면서 생기는 문제
+      //setInterval 을 실행하는 객체는 window 기 때문에 setInterval 의 콜백함수의 this 는 window 를 가르킨다.
+      //bind 로 this 를 Timer 의 멤버로 고정한 새로운 함수를 콜백함수로 사용하면 this 소실을 막을 수 있다.
+      const newFunc=this.setTime.bind(this);
+      window.setInterval(newFunc,1000);
+    }
+    setTime (){
+      this.time++;
+      this.printDom();
+    }
+  }
+  const timer=new Timer("timerStr",10);
+  timer.printDom();
+  timer.start();
+</script>
+
+
+
+
+
+
+
+
+
+
+<h3>timer 예제 2</h3>
+<div>
+  <button id="startBtn">start</button>
+  <strong id="timerTxt"></strong>
+  <button id="stopBtn">stop</button>
+</div>
+<script>
+  function TimerApp(startBtnId,stopBtnId,timerTxtId,time=5){
+    this.startBtn=document.getElementById(startBtnId);
+    this.stopBtn=document.getElementById(stopBtnId);
+    this.timerTxt=document.getElementById(timerTxtId);
+    this.time=time;
+    //this 소실의 구원자~~!!!! 화살표함수~~~
+    this.clickHandler=function (e){
+      //setInterVal 1초 1씩 줄어드는 것을 출력하는 것이 목표!
+      //this 소실 : onclick 을 실행하는 버튼을 this 바인드하고 있다.
+      console.log(this);
+      this.timerTxt.innerText=this.time;
+    }
+    this.startBtn.onclick=this.clickHandler.bind(this);
+
+    //bind(TimerApp.this) : 하면 함수의 this 를 실행하는 객체가 아니라 Timer로 고정
+
+
+    // this.startBtn.onclick= function (e){
+    //     //setInterVal 1초 1씩 줄어드는 것을 출력하는 것이 목표!
+    //     //this 소실 : onclick 을 실행하는 버튼을 this 바인드하고 있다.
+    //     console.log(this);
+    //     alert("스타트!");
+    //     this.timerTxt.innerText=this.time;
+    // }.bind(this); //bind(Timer.this) : 하면 함수의 this 를 실행하는 객체가 아니라 Timer로 고정
+    this.startBtn.onclick=(e)=>{
+      //화살표 함수의 this 는 실행하는 객체를 포함하는 필드를 this로 인식한다.(한번 건너띈다.)
+      //prototype 을 생성하는 함수는(function)은 실행하는 객체의 필드를 this 로 bind 하는 함수를 포함하고 있다.(함수가 타입이라서)
+      //화살표 함수는 타입이 될 수 없고 bind 함수도 없어서 this 를 바인딩하지 못해 밖에 있는 함수의 필드가 this 가 된다.
+      //화살표 함수의 this 는 화살표 함수를 포함하는 함수의 this 다. (화살표함수의 this는 없다.)
+      //==화살표 함수는 타입이 될 수 없고 bind 함수도 없어서 this 를 바인딩하지 못해서 밖에 있는 함수의 필드가 this 가 된다.
+      //==화살표 함수의 this 는 화살표 함수를 재정의한 객체를 포함하는 함수의 this 다.
+      //==화살표함수의 this 를 정의(바이드)하지 못해서 그 밖에 있는 함수가 this 가 된다.
+      this.timerTxt.innerText=this.time;
+    }
+  }
+  new TimerApp("startBtn","stopBtn","timerTxt",3)
+  new TimerApp("startBtn","stopBtn","timerTxt",3); //this==TimerApp
+  //Timer("startBtn","stopBtn","timerTxt",3); //this==window
+</script>
+<script>
+  //"use strict";
+  // this 가 전역인 window 일 때 undefined 를 반환 (무지한 사람들이 전역이 window 인 것을 몰라서..ㅠㅠ)
+  const person={name:"경민",birth:1986};
+  const ageCalc=function (){ //함수로만 사용 중
+    console.log(this);//함수를 실행하는 전역인 window
+    let nowYear=new Date().getUTCFullYear(); //2023
+    return this.name+"님의 나이는 "+(nowYear-this.birth)+" 입니다.";
+  };
+  console.log(ageCalc());
+
+  //ageCalc의 this를 person으로 bind 해보세요~
+  const personAgeCalc=ageCalc.bind(person);
+  console.log(personAgeCalc())
+
+  const person2={name:"은정",birth:1993}//마치 this 를 매개변수처럼 사용가능
+  const person2AgeCalc=ageCalc.bind(person2);
+  console.log(person2AgeCalc())
+</script>
+<h2>타이머 어플 3</h2>
+<form name="timerForm">
+  <p>
+    시간 : <input type="number" name="time" value="5000"> 밀리초
+  </p>
+  <p>
+    실행 간격 : <input type="number" name="interval" value="1000"> 밀리초
+  </p>
+  <p>
+    출력 : <input type="text" name="out" readonly>
+  </p>
+  <p>
+    <button type="button" name="start">시작</button>
+    <button type="button" name="stop">멈춤</button>
+    <button type="button" name="exit">종료</button>
+  </p>
+</form>
+<script>
+  class TimerApplication{
+    constructor(formName) {
+      this.form=document.forms[formName];
+      this.startBtn=this.form.start;
+      this.stopBtn=this.form.stop;
+      this.exitBtn=this.form.exit;
+      this.outNode=this.form.out;
+      this.timeNode=this.form.time;
+      this.intervalNode=this.form.interval;
+      this.timeNode2 =this.timeNode.value;
+      this.intervalNum=null;
+      this.threadCount=0;
+    }
+
+    startBtnOn() {
+      if(this.threadCount<=0) {
+        const newFunc = this.setTime.bind(this);
+        this.intervalNum =
+                setInterval(newFunc, this.intervalNode.value
+                );
+        this.threadCount++
+      }
+    }
+    stopBtnOff(){
+      this.threadCount--
+      clearInterval(this.intervalNum)
+    }
+    exitBtnReset(){
+      clearInterval(this.intervalNum);
+      this.timeNode2.value=5000;
+      this.intervalNode.value=1000;
+      this.outNode.value="";
+      this.threadCount--;
+    }
+    printDom () {
+      const node = this.outNode;
+      node.value=this.timeNode2;
+    }
+    setTime(){
+      this.timeNode2--;
+      this.printDom();
+    }
+  }
+  const timerApp = new TimerApplication("timerForm");
+  timerApp.startBtn.onclick = ()=>{
+    timerApp.startBtnOn();
+    console.log(timerApp.timeNode2)
+  }
+  timerApp.stopBtn.onclick=()=>{
+    timerApp.stopBtnOff();
+    console.log(timerApp.timeNode2)
+  }
+  timerApp.exitBtn.onclick=()=>{
+    timerApp.exitBtnReset();
+    console.log(timerApp.timeNode2)
+  }
+
+
+
+  //이미지 슬라이드를 자동으로 이동하게 만들어보세요 2초에 한번씩~
+  //감동의 도가니~
+</script>
+</body>
+</html>

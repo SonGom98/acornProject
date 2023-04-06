@@ -1,0 +1,26 @@
+extends layout
+block content
+    main
+        h1 사원 리스트 (Raed)
+        //p=empList
+        table
+            thead
+                tr
+                    th 사번
+                    th 이름
+                    th 급여
+                    th 입사일
+                    th 부서
+                    th 상세
+            tbody
+                -for(const emp of empList)
+                    tr
+                        td=emp.EMPNO
+                        td=emp.ENAME
+                        td=emp.SAL
+                        td=(emp.HIREDATE && emp.HIREDATE.toLocaleDateString("ko-KR"))
+                        //emp.HIREDATE?.toLocaleDateString("ko-KR") 옵셔널 체이닝
+                        td=emp.DEPTNO
+                        th
+                            a(href=`/emp/Detail.do?empno=${emp.EMPNO}`) 상세
+

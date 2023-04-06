@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JavaScriptLibraryMappings">
+    <file url="file://$PROJECT_DIR$/../acornProject" libraries="{Node.js Core}" />
+    <file url="file://$PROJECT_DIR$/../acornProject/acornExpressStore_team1" libraries="{Node.js Core}" />
+    <file url="file://$PROJECT_DIR$" libraries="{Node.js Core}" />
+    <file url="file://$PROJECT_DIR$/AcornRemoteStudy1" libraries="{Node.js Core}" />
+    <file url="file://$PROJECT_DIR$/ExpressJsBoardAdmin230302" libraries="{Node.js Core}" />
+    <file url="file://$PROJECT_DIR$/ExpressJsBoardStudy" libraries="{Node.js Core}" />
+    <file url="file://$PROJECT_DIR$/ExpressJsSequelize" libraries="{Node.js Core}" />
+    <file url="file://$PROJECT_DIR$/ExpressJsStudy" libraries="{Node.js Core}" />
+    <file url="file://$PROJECT_DIR$/JavaScriptStudy" libraries="{Node.js Core}" />
+  </component>
+</project>

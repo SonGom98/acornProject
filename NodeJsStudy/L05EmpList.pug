@@ -1,0 +1,24 @@
+html
+    head
+        meta(charset="UTF-8")
+    body
+        h1 사원 리스트
+        table
+            thead
+                tr
+                    th 부서 번호
+                    th 이름
+                    th 직업
+                    th 직속 상사
+                    th 입사일
+                    th 연봉
+            tbody
+                -for (let emp of empList)
+                                    tr
+                                        td
+                                            a(href=`L05EmpDetail.do?empno=${emp.EMPNO}`)=emp.EMPNO
+                                        td=emp.ENAME
+                                        td=emp.JOB
+                                        td=emp.MGR
+                                        td=emp.HIREDATE.toLocaleDateString()
+                                        td=emp.SAL

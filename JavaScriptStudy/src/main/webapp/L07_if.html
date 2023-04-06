@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>if switch</title>
+</head>
+<body>
+    <h1>if 문과 switch 와 삼항 연산자</h1>
+    <p>쉬운 것은 없다 ㅜㅠ</p>
+    <div>
+      성적 입력 : <input id="ex1Score" type="text"><label id="grade"></label><br>
+      (1. oninput 으로 문자열이 입력되면 입력한 문자열만 삭제하고 입력 받는 값이 100보다 작아야한다.)<br>
+      (2. onchange 로 입력받은 문자열이 정수가 아니거나 0~100사이가 아니면 alert으로 경고를 띄우고 다시 입력 받도록 한다.)<br>
+      (0~100만 입력 가능 하게 만들기)
+    </div>
+
+    <h2>입력요소에서 발생하는 이벤트</h2>
+    <ul>
+      <li>onchange : 입력요소에 값을 변경하고 focus 가 벗어나는 것</li>
+      <li>onfocus : 입력요소에 입력하기 위해 focus 중인 상태</li>
+      <li>onblur : focus중인 상태에서 벗어나는 것</li>
+      <li>oninput : 입력요소에 값을 입력할때 마다 발생</li>
+      <li>onselected : 입력요소에 입력한 문자열을 마우스로 드래그해서 선택할 때 발생</li>
+      <li>onsubmit : 폼요소에 서브밋 버튼을 누르면 폼에 양식을 제출하면서 발생</li>
+    </ul>
+
+    <h2>switch 장점과 특징</h2>
+    <ul>
+        <li>가독성이 좋다.(유지보수) (if의 조건을 파악하기 어렵다.)</li>
+        <li>if문 보다 훨씬 빠르다</li>
+        <li>switch 는 기본형만 비교연산 가능 (단점)</li>
+        <li>switch 는 복잡한 조건을 사용할 수 없다.</li>
+    </ul>
+
+    <h2>js의 Boolean()이 true false 를 반환하는 것들 (암기!)</h2>
+    <ul>
+        <li>null : <script>document.write(Boolean(null));</script></li>
+        <li>0 : <script>document.write(Boolean(0));</script></li>
+        <li>undefined : <script>document.write(Boolean(undefined));</script></li>
+        <li>NaN : <script>document.write(Boolean(NaN));</script></li>
+        <li>"" : <script>document.write(Boolean(""));</script> (기본형)</li>
+
+
+        <li>new String() : <script>document.write(Boolean(new String));</script>(자료형)</li>
+        <li>[] : <script>document.write(Boolean([]));</script> (new Array(),자료형)</li>
+        <li>{} (new Object()) : <script>document.write(Boolean({}));</script> (new Object(), 자료형)</li>
+        <li>Infinity : <script>document.write(Boolean(Infinity));</script></li>
+        <li>" " : <script>document.write(Boolean(" "));</script></li>
+        <li>1 : <script>document.write(Boolean(1));</script></li>
+        <li>11 : <script>document.write(Boolean(11));</script></li>
+        <li>-11 : <script>document.write(Boolean(-11));</script></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+<script>
+
+   const $ex1Score = document.getElementById("ex1Score");
+   const $grade= document.getElementById("grade");
+  // console.log($ex1Score);
+  // $ex1Score.onfocus=function (e){
+  //   console.log("입력요소에 focus 를 했습니다.")
+  // }
+  // $ex1Score.onblur=function (e){
+  //   console.log("입력요소에서 벗어났습니다.")
+  // }
+  // $ex1Score.oninput = function (e){
+  //   console.log("입력한 값",e.target.value)
+  // }
+  // $ex1Score.onchange = function (e){
+  //   console.log("값을 바꾸고 벗어남", e.target.value)
+  // }
+  // $ex1Score.onselect=function (e){
+  //   console.log(e)
+  // }
+
+   $ex1Score.oninput = function (e){
+     let val = e.target.value;
+     if(isNaN(val)){
+         let preVal=val.slice(0,val.length-1);
+         alert("정수만 입력해주세요")
+         e.target.value = preVal;
+     }
+     else if(val<0 || val>100){ //+제외한 모든 연산은 문자열은 수로 형변환한다.
+         alert("0~100사이의 정수를 입력해주세요.")
+         e.target.value="";
+     }
+     else
+         $ex1Score.onblur = function (e){
+             $grade.innerText=gradeApp(val);
+         }
+   }
+
+
+/*
+  $ex1Score.onchange = function (e){
+    // let val = e.target.value;
+    let val = parseFloat(e.target.value);
+    if(isNaN(val)){
+      alert("정수만 입력해주세요")
+      e.target.value="";
+    }
+    else if(val<0 || val>100){ //+제외한 모든 연산은 문자열은 수로 형변환한다.
+      alert("0~100사이의 정수를 입력해주세요.")
+      e.target.value="";
+    }
+    else{
+      alert(gradeApp(val));
+    }
+  }
+*/
+
+   function gradeApp(score){
+     //if문으로 만들고 switch로 변경 자바는 정수 js는 실수
+     // if(score/10>=9.5){
+     //   return "A+";
+     // }
+     // else if (score/10>=9.0){
+     //   return "A";
+     // }
+     // else if (score/10>=8.5){
+     //     return "B+";
+     // }
+     // else if (score/10>=8.0){
+     //     return "B";
+     // }
+     // else if (score/10>=7.0){
+     //     return "D";
+     // }
+     // else {
+     //     return "F";
+     // }
+       console.log(Math.round(score/10));//반올림
+       console.log(Math.floor(score/10));//내림
+       console.log(Math.trunc(score/10));//버림
+       let grade;
+     switch (parseInt(score/10)){
+         case 9:grade="A"; break;
+         case 8:grade="B";break;
+         case 7:grade="C";break;
+         case 6:grade="D";break;
+         default: grade="F";
+     }
+     if(Math.round(score/10)-Math.trunc(score/10))
+         grade+="+";
+     return grade;
+   }
+
+
+
+</script>
+
+</body>
+</html>

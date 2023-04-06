@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="FrameworkDetectionExcludesConfiguration">
+    <file type="web" url="file://$PROJECT_DIR$/../acornProject" />
+    <file type="web" url="file://$PROJECT_DIR$/acornProject" />
+    <file type="web" url="file://$PROJECT_DIR$/AcornRemoteStudy1" />
+    <file type="web" url="file://$PROJECT_DIR$/GitWebStudy" />
+    <file type="web" url="file://$PROJECT_DIR$/JavaScriptStudy" />
+    <file type="web" url="file://$PROJECT_DIR$/JavaWebAppBoardModel2" />
+    <file type="web" url="file://$PROJECT_DIR$/SpringMybatisBoard20210327" />
+    <file type="web" url="file://$PROJECT_DIR$/WebAppBoardStudy" />
+    <file type="web" url="file://$PROJECT_DIR$/WebAppStudy" />
+  </component>
+  <component name="JavaScriptSettings">
+    <option name="languageLevel" value="FLOW" />
+  </component>
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/AcornRemoteStudy1/pom.xml" />
+        <option value="$PROJECT_DIR$/JavaScriptStudy/pom.xml" />
+        <option value="$PROJECT_DIR$/WebAppBoard/pom.xml" />
+        <option value="$PROJECT_DIR$/JavaWebAppBoardModel2/pom.xml" />
+        <option value="$PROJECT_DIR$/springstudy/pom.xml" />
+        <option value="$PROJECT_DIR$/../acornProject/pom.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="corretto-17" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/out" />
+  </component>
+</project>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ajax 과제에용</title>
+</head>
+<body>
+<h3>과제~~~~~~~~~~~~~~dept 리스트를 json 로 반환하는 서블릿을 만들고 ajax 로 호출하세요~</h3>
+<p>
+    <a id="XMLHttpR" href="javascript:void(0);" data-url="deptListJson.do">XMLHttpRequest 로 호출</a>
+</p>
+<p>
+    <a id="XMLHttpR2" href="javascript:void(0);">XMLHttpRequest 의 프라미스화로 호출</a>
+</p>
+<p>
+    <a id="XMLHttpR3" href="javascript:void(0);">fetch로 호출 호출</a>
+</p>
+<table>
+    <thead>
+        <tr>
+            <th>부서번호</th>
+            <th>부서이름</th>
+            <th>부서지역</th>
+        </tr>
+    </thead>
+    <tbody id="deptTbody" >
+    </tbody>
+</table>
+
+<script>
+    const loadDeptBtn = document.getElementById("XMLHttpR");
+    const loadDeptBtn2 = document.getElementById("XMLHttpR2");
+    const loadDeptBtn3 = document.getElementById("XMLHttpR3");
+    const deptTbody = document.getElementById("deptTbody");
+    loadDeptBtn.onclick=deptListLoad;
+    function deptListLoad(){
+        let url = this.dataset.url;
+        const req = new XMLHttpRequest();
+        req.open("GET",url);
+        req.onload = function (){
+            let deptListJson = req.responseText;
+            const deptList = JSON.parse(deptListJson);
+            printDeptList(deptList);
+            console.log(JSON.parse(deptListJson))
+        }
+        req.send();
+    }
+
+    function printDeptList(deptList){ //table 의 문자열로 출력해주는 함수
+        let html="";
+        deptList.forEach((dept)=>{
+            html+="<tr>";
+            for(let key in dept){
+                html+=`<td>${dept[key]}</td>`
+            }
+            html+="</tr>";
+        })
+        deptTbody.innerHTML=html;
+    }
+
+    loadDeptBtn2.onclick=function (e){
+        fetchApi("deptListJson.do")
+            .then((res)=>{
+                printDeptList(JSON.parse(res));
+                console.log(res)
+            })
+    }
+    function fetchApi(url, method="GET"){
+        return new Promise((res,rej)=>{
+            const req = new XMLHttpRequest();
+            req.open(method,url);
+            req.onload=function (e){
+                    let responseText=req.responseText;
+                    res(responseText);
+            }
+            req.send();
+        });
+    }
+
+    loadDeptBtn3.onclick = function loadDeptListJson(){
+        fetch("deptListJson.do", {method: "GET"})
+            .then((res)=>{
+                return res.json();
+            }).then((deptList)=>{
+            printDeptList(deptList);
+            console.log(deptList)
+        })
+    }
+
+
+
+</script>
+</body>
+</html>

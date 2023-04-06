@@ -1,0 +1,19 @@
+html(lang="en")
+    head
+        title SCOTT dept CRUD
+        meta(charset="UTF-8")
+    body
+        h1 부서 추가하기
+        form(name="deptInsertForm",action="/deptInsert.do",method="POST")
+            p
+                span 부서 번호 :
+                input(value="",name="deptno")
+                p(id="duplicate")
+            p
+                span 부서 이름 :
+                input(value="",name="dname")
+            p
+                span 부서 지역 :
+                input(value="",name="loc")
+
+                button(type="submit") 부서 추가

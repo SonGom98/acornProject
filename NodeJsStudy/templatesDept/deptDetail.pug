@@ -1,0 +1,35 @@
+html(lang="en")
+    head
+        title SCOTT.dept CRUD
+        meta(charset="UTF-8")
+        //link(rel="stylesheet" href="/public/css/empDetail.css")
+    body
+        h1 부서별 사원 상세 정보
+        div
+            -for(const emp of empList)
+                p
+                    span 부서 :
+                    strong=emp.DEPTNO
+                p
+                    span 사번 :
+                    strong=emp.EMPNO
+                p
+                    span 이름 :
+                    strong=emp.ENAME
+                p
+                    span 직책 :
+                    strong=emp.JOB
+                p
+                    span 급여 :
+                    strong=emp.SAL
+                p
+                    span 상여급 :
+                    strong=emp.COMM
+                p
+                    span 입사일 :
+                    strong=emp.HIREDATE.toLocaleDateString("ko-KR")
+                p
+                    span 상사 :
+                    strong=emp.MGR
+                p
+                    span ------------------------------------------------------

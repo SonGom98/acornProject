@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+  <script>
+    const person={name:"경민",birth:1986};
+    const ageCalc=function (){
+      let nowYear=new Date().getUTCFullYear(); //2023
+
+      return this.name+"님의 나이는 "+(nowYear-this.birth)+" 입니다.";
+    }
+    //this를 person으로 바인드 해보세요~
+    console.log(ageCalc())
+    const personAgeCalc=ageCalc.bind(person);
+    console.log(personAgeCalc())
+  </script>
+</body>
+</html>

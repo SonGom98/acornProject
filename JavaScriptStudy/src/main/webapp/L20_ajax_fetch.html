@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>fetch API 와 AJAX</title>
+</head>
+<body>
+    <h1>Promise 화 된 비동기 통신 API fetch</h1>
+    <h2>
+        empListJson.do 와 비동기식 통신 (fetch)
+        <button onclick="loadEmpListJson()">로드!</button>
+    </h2>
+    <pre id="empListCont"></pre>
+<script>
+    function loadEmpListJson() {
+        fetch("empListJson.do?deptno=10", {method: "GET"})
+            .then((resp) => { //응답한 내역 전체 (응답한 내역 어떤 형식으로 처리할 건지 정해야한다.)
+                //resp.text() //응답한 내역dmf 문자열로 처리하는 Promise
+                return resp.json(); //응답한 내역을 문자열과 Object 로 파싱 처리하는 Promise 를 반환
+            }).then((empList) => {
+           empListCont.innerHTML=(empList);
+        })
+    };
+
+</script>
+    <h2>XMLHttpRequest 의 프라미스 화</h2>
+    <h3>
+        <a href="javascript:void(0)" id="loadImgListBtn">
+            프라미스화 한 함수로 ajax/imgList.html 불러오기
+        </a>
+    </h3>
+    <div id="imgCont"></div>
+    <h3>과제~~~~~~~~~~~~~~dept 리스트를 json 로 반환하는 서블릿을 만들고 ajax 로 호출하세요~</h3>
+    <p>
+        <button>XMLHttpRequest 로 호출</button>
+        <button>XMLHttpRequest 의 프라미스화로 호출</button>
+        <button>fetch로 호출 호출</button>
+    </p>
+
+    <script>
+        loadImgListBtn.onclick=function (e){
+            fetchApi("ajax/imgList.html")
+                .then((responseText)=>{
+                    imgCont.innerHTML=responseText;
+            }).catch((errorMsg)=>{
+                alert("호출 실패"+errorMsg)
+            })
+        }
+
+        function fetchApi(url, method="GET"){
+            return new Promise((resolve,reject)=>{
+               const req = new XMLHttpRequest(); // req.readyState==0
+               req.open(method,url); //req.readyState==1
+                req.onload=function (e){
+
+                    if(req.status==200){
+                        let responseText=req.responseText;
+                        resolve(responseText);
+                    }else{ //404:요청한 url 리소스가 없는 것, 500: 요청한 리소스가 오류가 있는 상태
+                        reject(new Error(req.status));
+                    }
+
+                }//통신 완료 //req.readyState==4 : 응답 내역을 모두 처리했을 때 (완료)
+                req.send(); //통신시작 req.readyState==1.5
+                // req.readyState==2 : 서버의 응답 해더(상태)
+                //req.readyState==3 : 서버에서 모든 응답을 완료했을때
+            });
+        }
+    </script>
+
+</body>
+</html>
